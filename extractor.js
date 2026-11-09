@@ -3,7 +3,7 @@
 // (dequantizing, applying skinning/morphs and instancing) and saves .glb or .stl.
 (async () => {
   const isTop = window === window.top;
-  const FORMAT = window.__threeRipFormat === 'stl' ? 'stl' : 'glb';
+  const FORMAT = window.__potehaSTLFormat === 'stl' ? 'stl' : 'glb';
   const stlParts = []; // { pos: Float32Array (world space), idx: Uint32Array }
 
   const toast = (msg, ok = true) => {
@@ -19,14 +19,14 @@
       document.documentElement.appendChild(d);
       setTimeout(() => d.remove(), 5000);
     } catch (e) { /* ignore */ }
-    console.log('[three-ripper]', msg);
+    console.log('[PotehaSTL]', msg);
   };
 
   // ---------- 1. Find scenes ----------
   const rootOf = (o) => { while (o && o.parent) o = o.parent; return o; };
   const scenes = new Set();
 
-  for (const r of (window.__threeRip?.refs || [])) {
+  for (const r of (window.__potehaSTL?.refs || [])) {
     const o = r.deref && r.deref();
     if (o && o.isObject3D) scenes.add(rootOf(o));
   }
@@ -335,7 +335,7 @@
     for (const p of stlParts) triTotal += Math.floor(p.idx.length / 3);
     const stl = new ArrayBuffer(84 + triTotal * 50);
     const dv = new DataView(stl);
-    const header = new TextEncoder().encode('three-ripper binary STL');
+    const header = new TextEncoder().encode('PotehaSTL binary STL');
     new Uint8Array(stl, 0, 80).set(header.subarray(0, 80));
     dv.setUint32(80, triTotal, true);
     let o = 84;
@@ -372,7 +372,7 @@
 
   // ---------- GLB ----------
   const gltf = {
-    asset: { version: '2.0', generator: 'three-ripper' },
+    asset: { version: '2.0', generator: 'PotehaSTL' },
     scene: 0,
     scenes: [{ nodes: nodes.map((_, i) => i) }],
     nodes, meshes: meshesOut, materials, accessors, bufferViews,

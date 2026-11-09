@@ -9,7 +9,7 @@ for (const btn of document.querySelectorAll('button[data-format]')) {
       const target = { tabId: tab.id, allFrames: true };
       await chrome.scripting.executeScript({
         target, world: 'MAIN',
-        func: (f) => { window.__threeRipFormat = f; },
+        func: (f) => { window.__potehaSTLFormat = f; },
         args: [format],
       });
       await chrome.scripting.executeScript({ target, world: 'MAIN', files: ['extractor.js'] });

@@ -2,7 +2,7 @@
 // WebGLRenderer to window.__THREE_DEVTOOLS__ (if it exists) via an "observe"
 // event, so defining it early lets us catch scenes that are never exposed.
 (() => {
-  const store = (window.__threeRip = window.__threeRip || { refs: [] });
+  const store = (window.__potehaSTL = window.__potehaSTL || { refs: [] });
   let dt = window.__THREE_DEVTOOLS__;
   if (!dt) {
     dt = new EventTarget();

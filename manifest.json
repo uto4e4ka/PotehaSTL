@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Three.js Scene → GLB / STL",
+  "name": "PotehaSTL",
   "version": "1.1.0",
-  "description": "Экспортирует текущую сцену three.js со страницы в GLB или STL.",
+  "description": "PotehaSTL: экспорт сцены three.js со страницы в GLB или STL.",
   "permissions": ["scripting", "activeTab"],
   "action": {
-    "default_title": "Экспортировать сцену three.js",
+    "default_title": "PotehaSTL: экспорт сцены three.js",
     "default_popup": "popup.html"
   },
   "content_scripts": [
