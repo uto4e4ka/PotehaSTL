@@ -1,6 +1,8 @@
-// Injected into the page (MAIN world) from the popup.
+// Injected into the page (MAIN world) by the background worker after tokens were reserved.
+// Reports the outcome in window.__potehaSTLDone so the worker can confirm or refund the tokens.
 // Finds the largest three.js scene, bakes every visible mesh into world space
 // (dequantizing, applying skinning/morphs and instancing) and saves .glb or .stl.
+window.__potehaSTLDone = undefined;
 (async () => {
   const isTop = window === window.top;
   const FORMAT = window.__potehaSTLFormat === 'stl' ? 'stl' : 'glb';
@@ -120,7 +122,7 @@
 
   if (!best) {
     if (isTop) toast('Сцена three.js не найдена.\nПопробуйте перезагрузить страницу и нажать ещё раз,\nкогда модель уже видна.', false);
-    return;
+    return { ok: false, error: 'no_scene' };
   }
 
   // ---------- 3. Build GLB ----------
@@ -313,7 +315,7 @@
 
   if (!nodes.length) {
     if (isTop) toast('Сцена найдена, но мешей с геометрией в ней нет.', false);
-    return;
+    return { ok: false, error: 'no_meshes' };
   }
 
   const download = (bytes, ext, mime) => {
@@ -367,7 +369,7 @@
       `Сохранено: ${name}\nТреугольников: ${triTotal.toLocaleString()}, ${(stl.byteLength / 1048576).toFixed(1)} МБ` +
       `\nВысота: ${(maxZ - minZ).toFixed(3)} ед. (слайсер прочитает как мм, масштабируйте под нужный размер)`
     );
-    return;
+    return { ok: true, format: 'stl', file: name, tris: triTotal };
   }
 
   // ---------- GLB ----------
@@ -415,4 +417,8 @@
     `Сохранено: ${name}\nМешей: ${nodes.length}, треугольников: ${tris.toLocaleString()}, текстур: ${images.length}, ${(total / 1048576).toFixed(1)} МБ` +
     (warnUniq.length ? '\n⚠ ' + warnUniq.join('\n⚠ ') : '')
   );
-})();
+  return { ok: true, format: 'glb', file: name, tris };
+})().then(
+  (r) => { window.__potehaSTLDone = r || { ok: false, error: 'unknown' }; },
+  (e) => { window.__potehaSTLDone = { ok: false, error: String((e && e.message) || e) }; }
+);

@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
   "name": "PotehaSTL",
-  "version": "1.1.0",
-  "description": "PotehaSTL: экспорт сцены three.js со страницы в GLB или STL.",
-  "permissions": ["scripting", "activeTab"],
+  "version": "1.2.0",
+  "description": "PotehaSTL: экспорт сцены three.js со страницы в GLB или STL. Оплата токенами через Telegram-бота.",
+  "permissions": ["scripting", "activeTab", "storage"],
+  "background": { "service_worker": "background.js" },
   "action": {
     "default_title": "PotehaSTL: экспорт сцены three.js",
     "default_popup": "popup.html"

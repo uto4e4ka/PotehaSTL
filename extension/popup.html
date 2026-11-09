@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 12px; width: 240px; font: 13px/1.4 system-ui, sans-serif; background: #1b1b1d; color: #eee; }
+  h1 { font-size: 14px; font-weight: 600; margin: 0 0 8px; display: flex; justify-content: space-between; align-items: baseline; }
+  h1 small { font-weight: 400; color: #9a9aa2; font-size: 12px; }
+  #balance b { color: #c6f36b; }
+  .btn { display: block; width: 100%; margin: 0 0 8px; padding: 9px 10px; border: 0; border-radius: 6px;
+         font: inherit; text-align: left; cursor: pointer; background: #2c2c30; color: #eee; box-sizing: border-box; }
+  .btn:hover:not(:disabled) { background: #3a3a40; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .btn b { display: flex; justify-content: space-between; }
+  .btn b em { font-style: normal; font-weight: 400; color: #c6f36b; }
+  .btn span { color: #9a9aa2; font-size: 12px; }
+  .primary { background: #c6f36b; color: #111; text-align: center; font-weight: 600; }
+  .primary:hover:not(:disabled) { background: #d6ff86; }
+  input { width: 100%; box-sizing: border-box; padding: 8px; margin: 0 0 8px; border-radius: 6px; border: 1px solid #3a3a40;
+          background: #111; color: #eee; font: 12px ui-monospace, monospace; }
+  p { margin: 0 0 8px; color: #b8b8c0; }
+  a { color: #8ab4ff; }
+  #status { color: #9a9aa2; font-size: 12px; min-height: 16px; white-space: pre-line; }
+  #status.err { color: #ff8a8a; }
+  .row { display: flex; justify-content: space-between; font-size: 12px; margin-top: 4px; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+  <h1>PotehaSTL <small id="balance"></small></h1>
+
+  <section id="login" class="hidden">
+    <p>Экспорт тратит токены с баланса в Telegram-боте. Возьмите там ключ и вставьте сюда.</p>
+    <a class="btn primary" id="botLink" href="#" target="_blank">Открыть бота</a>
+    <input id="keyInput" placeholder="pst_..." autocomplete="off" spellcheck="false">
+    <button class="btn" id="saveKey">Сохранить ключ</button>
+  </section>
+
+  <section id="main" class="hidden">
+    <button class="btn" data-format="glb"><b>GLB <em data-cost="glb"></em></b><span>геометрия, UV, текстуры, материалы</span></button>
+    <button class="btn" data-format="stl"><b>STL <em data-cost="stl"></em></b><span>только геометрия, для печати</span></button>
+    <div class="row"><a href="#" target="_blank" id="buyLink">Пополнить в боте</a><a href="#" id="logout">Сменить ключ</a></div>
+  </section>
+
+  <div id="status"></div>
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
